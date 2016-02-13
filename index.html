@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+  </head>
+  <body>
+
+  <form id="search-input">
+    <input id="textBox">
+    <button type="submit">search</button>
+  </form>
+
+
+  <div id="images">
+</div>
+<script>
+(function() {
+var searchForm = document.getElementById('search-input')
+var searchInput = document.getElementById('textBox')
+
+var searchImg = function(keyword){
+  var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&tags=' + keyword + '&format=json&nojsoncallback=1&api_key='
+
+  fetch(url)
+    .then(function(response) {
+      return response.json()
+
+    }).then(function(json) {
+      json.photos.photo.forEach(function(val, index) {
+        var a = document.getElementById("images");
+        a.insertAdjacentHTML('afterEnd','<img src="http://farm' + val.farm + '.staticflickr.com/' + val.server + '/' + val.id + '_' + val.secret + '.jpg">');
+      })
+    })
+}
+var searchEvents = function(event) {
+    event.preventDefault()
+    var tag = searchInput.value
+
+    searchImg(tag);
+}
+   searchForm.addEventListener('submit', searchEvents)
+ }());
+  </script>
+</body>
+</html>
