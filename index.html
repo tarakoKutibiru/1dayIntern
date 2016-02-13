@@ -8,6 +8,7 @@
 
   <form id="search-input">
     <input id="textBox">
+    <input id="apiBox">
     <button type="submit">search</button>
   </form>
 
@@ -17,10 +18,11 @@
 <script>
 (function() {
 var searchForm = document.getElementById('search-input')
+var apiForm=document.getElementById('apiBox')
 var searchInput = document.getElementById('textBox')
 
-var searchImg = function(keyword){
-  var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&tags=' + keyword + '&format=json&nojsoncallback=1&api_key='
+var searchImg = function(keyword,apikey){
+  var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&tags=' + keyword + '&format=json&nojsoncallback=1&api_key=' +apikey;
 
   fetch(url)
     .then(function(response) {
@@ -36,8 +38,9 @@ var searchImg = function(keyword){
 var searchEvents = function(event) {
     event.preventDefault()
     var tag = searchInput.value
+    var api_key=apiBox.value
 
-    searchImg(tag);
+    searchImg(tag,api_key);
 }
    searchForm.addEventListener('submit', searchEvents)
  }());
